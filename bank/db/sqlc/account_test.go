@@ -35,5 +35,5 @@ func TestCreateAccount(t *testing.T) {
 
 func TestGetAccount(t *testing.T) {
 	account1 := CreateRandomAccount(t)
-	account2, err := 
+	account2, err := testQueries.GetAccount()
 }
