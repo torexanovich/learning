@@ -1,0 +1,178 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+	"strings"
+
+	"github.com/fatih/color"
+)
+
+const fileName = "todos.txt"
+
+func WriteToFile(todo string) {
+	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	if _, err := file.WriteString("[❎] " + todo); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func markDone(id int) {
+	todos := readFromFile()
+	file, err := os.Create(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	for i, todo := range todos {
+		if i == id {
+			todo = strings.Replace(todo, "[❎]", "[✅]", 1)
+		}
+		if _, err := file.WriteString(todo + "\n"); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+}
+
+func updateTodo(id int, new string) {
+	todos := readFromFile()
+	file, err := os.Create(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer file.Close()
+
+	new = strings.TrimSpace(new)
+
+	for i, todo := range todos {
+		if i == id {
+			status := todo[:5]
+			todo = status + " " + new
+		}
+		if _, err := file.WriteString(todo + "\n"); err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func readFromFile() []string {
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var todos []string
+	for scanner.Scan() {
+		todos = append(todos, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	return todos
+}
+
+func deleteTodo(id int) {
+	todos := readFromFile()
+	file, err := os.Create(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	for i, todo := range todos {
+		if i != id {
+			if _, err := file.WriteString(todo + "\n"); err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+}
+
+func main() {
+	welcome := `
+	██████╗  ██████╗     ██████╗  ██████╗ 
+	██╔════╝ ██╔═══██╗    ██╔══██╗██╔═══██╗
+	██║  ███╗██║   ██║    ██║  ██║██║   ██║
+	██║   ██║██║   ██║    ██║  ██║██║   ██║
+	╚██████╔╝╚██████╔╝    ██████╔╝╚██████╔╝
+	 ╚═════╝  ╚═════╝     ╚═════╝  ╚═════╝
+	`
+	fmt.Printf("%v", color.BlueString(welcome))
+
+	br := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Printf("%v", color.GreenString("\n----Go select one----\n"))
+		fmt.Println("1. Create todo")
+		fmt.Println("2. Mark as done")
+		fmt.Println("3. List todos")
+		fmt.Println("4. Update todo")
+		fmt.Println("5. Delete todo")
+		fmt.Println("6. Celebrate")
+		fmt.Println("7. Exit")
+
+		var choice int
+		fmt.Printf("%v", color.GreenString("\nYour choice: "))
+		fmt.Scan(&choice)
+
+		if choice == 1 {
+			fmt.Print("Whatu wanna do: ")
+			var todo string
+			todo, _ = br.ReadString('\n')
+			WriteToFile(todo)
+		} else if choice == 2 {
+			var id int
+			fmt.Print("ID of todo to mark done: ")
+			fmt.Scan(&id)
+			markDone(id)
+		} else if choice == 3 {
+			todos := readFromFile()
+			fmt.Println("\n-------------------")
+			fmt.Println("ID\tStatus\tTodo")
+			fmt.Println("-------------------")
+			for i, todo := range todos {
+				status := "[❎]"
+				if strings.Contains(todo, "[✅]") {
+					status = "[✅]"
+				}
+				fmt.Printf("%d\t%s\t%s\n", i, status, todo[5:])
+			}
+			fmt.Println("-------------------")
+		} else if choice == 4 {
+			var id int
+			fmt.Print("ID of todo to update: ")
+			fmt.Scan(&id)
+			fmt.Print("Updated text: ")
+			new, _ := br.ReadString('\n')
+			updateTodo(id, new)
+		} else if choice == 5 {
+			var id int
+			fmt.Print("ID of todo to update: ")
+			fmt.Scan(&id)
+			deleteTodo(id)
+		} else if choice == 6 {
+			fmt.Println(color.MagentaString("🎉🎉🎉"))
+		} else if choice == 7 {
+			fmt.Println("Goodbye 👋")
+			break
+		} else {
+			fmt.Println("Wrong choice 🤬")
+		}
+	}
+
+	fmt.Println("Come again ❤️")
+}

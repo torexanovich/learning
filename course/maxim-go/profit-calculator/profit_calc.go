@@ -7,19 +7,22 @@ import "fmt"
 // calculate ratio (EBT / profit)
 // output EBT, profit and the ratio
 func main() {
-	var revenue float64
-	var expenses float64
-	var taxeRate float64
+	revenue := getInput("Revenue: ")
+	expenses := getInput("Expenses: ")
+	taxeRate := getInput("Taxe Rate: ")
 
-	fmt.Print("Revenue: ")
-	fmt.Scan(&revenue)
+	calculateProfit(revenue, expenses, taxeRate)
+}
 
-	fmt.Print("Expenses: ")
-	fmt.Scan(&expenses)
+func getInput(printText string) float64 {
+	var toScan float64
+	fmt.Print(printText)
+	fmt.Scan(&toScan)
 
-	fmt.Print("Taxe Rate: ")
-	fmt.Scan(&taxeRate)
+	return toScan
+}
 
+func calculateProfit(revenue, expenses, taxeRate float64) {
 	EBT := revenue - expenses
 	profit := EBT * (1 - taxeRate/100)
 	ratio := EBT / profit
