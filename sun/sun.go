@@ -108,6 +108,7 @@ func main() {
 			fmt.Print(message)
 		}  else {
 			color.Red(message)
+			
 		}
 	}
 }
