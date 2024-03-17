@@ -1,9 +1,9 @@
 PUT http://localhost:8080/events/2
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGVtYWlsLmNvbSIsImV4cCI6MTcxMDcwNDM0MywidXNlcklEIjoyfQ.ZzrGJJVkUepm0cyvXmryKlQRZ0OaMQAdarFkPH-itxA
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiZXhwIjoxNzEwNzA1MDU2LCJ1c2VySUQiOjF9.jV-eCHTYe2bvpfp7QwDDzj4LfdNf_N992cZ8e7H_FLU
 
 {
-    "name": "updated name",
+    "name": "UPDATED",
     "location": "location 4",
     "date": "2024-01-01T15:30:00.000Z"
 }
