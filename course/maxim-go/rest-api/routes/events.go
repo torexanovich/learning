@@ -85,6 +85,12 @@ func getEvents(ctx *gin.Context) {
 }
 
 func createEvent(ctx *gin.Context) {
+	token := ctx.Request.Header.Get("Autorization")
+	if token == "" {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	var event models.Event
 	err := ctx.ShouldBindJSON(&event)
 	if err != nil {
