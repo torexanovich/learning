@@ -1,8 +1,10 @@
 POST http://localhost:8080/events
 content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGVtYWlsLmNvbSIsImV4cCI6MTcxMDcwMjkzOSwidXNlcklEIjoyfQ.Fq8qj8EveHiv53qHww1VPMDxjEP9cBRvP8pVKyDpDMo
 
 {
-    "Name": "SomeName",
-    "Location": "(No Way!)",
+    "Name": "123",
+    "Description": "123",
+    "Location": "123",
     "Date": "2024-01-01T15:30:00.000Z"
 }
