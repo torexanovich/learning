@@ -1,0 +1,2 @@
+POST http://localhost:8080/events/1/register
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiZXhwIjoxNzEwNzA3MDI4LCJ1c2VySUQiOjF9.UXuleN5JkO1mYvNgTKA6rYrPYQVsOnTl63lKkR_fass
